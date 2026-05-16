@@ -88,10 +88,9 @@ JOFYN/
 
 ## 📝 License
 
-Copyright © 2026 Ricki. All rights reserved.
+This project is licensed under the [MIT License](https://github.com/ricnah/JOFYN/blob/main/LICENSE).
 
 ---
-
 <p align="center">
-  Developed with ❤️ for job seekers in Indonesia.
+  Copyright © 2026 JOFYN - Ricki. All rights reserved.
 </p>
