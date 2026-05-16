@@ -1,0 +1,8 @@
+flask
+flask-cors
+selenium
+webdriver-manager
+python-docx
+pandas
+openpyxl
+python-dotenv
