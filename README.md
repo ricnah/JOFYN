@@ -1,8 +1,8 @@
 # <p align="center"><img src="src/assets/logo.svg" width="100" alt="JOFYN Logo"/><br/>JOFYN</p>
 
 <p align="center">
-  <strong>The Ultimate Auto Scout Engine v1.0.0 Beta</strong><br/>
-  Automate your job search across multiple Indonesian platforms with Selenium and AI.
+  <strong>Automated Career Scouting Engine</strong><br/>
+  Automate your job search across multiple Indonesian platforms with Selenium.
 </p>
 
 <p align="center">
