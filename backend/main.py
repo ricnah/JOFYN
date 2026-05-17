@@ -3,6 +3,7 @@ from flask_cors import CORS
 import os
 import threading
 import time
+import json
 from cv_parser import extract_text_from_docx, get_keywords
 from scraper import JofynScraper, save_results
 
@@ -125,6 +126,30 @@ def get_data(id):
         with open(path, 'r') as f:
             return jsonify(json.load(f))
     return jsonify({"error": "Data not found"}), 404
+
+@app.route('/api/open-folder', methods=['POST'])
+def open_folder():
+    path = os.path.abspath('data')
+    if os.path.exists(path):
+        try:
+            os.startfile(path)
+            return jsonify({"message": "Folder opened successfully"})
+        except Exception as e:
+            return jsonify({"error": f"Failed to open folder: {str(e)}"}), 500
+    else:
+        return jsonify({"error": "Data folder not found. Please run the scraper first."}), 404
+
+@app.route('/api/open-excel', methods=['POST'])
+def open_excel():
+    path = os.path.abspath('data/MasterData.xlsx')
+    if os.path.exists(path):
+        try:
+            os.startfile(path)
+            return jsonify({"message": "Excel file opened successfully"})
+        except Exception as e:
+            return jsonify({"error": f"Failed to open Excel: {str(e)}"}), 500
+    else:
+        return jsonify({"error": "Excel file not found. Please run the scraper first."}), 404
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

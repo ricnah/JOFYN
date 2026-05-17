@@ -80,7 +80,7 @@ export default function DashboardLayout() {
       />
 
       {/* 4. MAIN CONTENT AREA */}
-      <main className="flex-grow overflow-y-auto z-10 relative">
+      <main className="flex-grow overflow-hidden z-10 relative flex flex-col">
         {view === 'new' && (
           <TaskForm 
             file={file}

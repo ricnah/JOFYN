@@ -150,6 +150,13 @@ export default function useJofynEngine() {
   }, []);
 
   const loadHistory = async (id, date) => {
+    if (id === 'dummy_empty') {
+      setCurrentData([]);
+      setCurrentTitle(`${t('results_dashboard')}: ${date}`);
+      setSelectedHistoryId(id);
+      setView('results');
+      return;
+    }
     try {
       const res = await axios.get(`http://localhost:5000/api/data/${id}`);
       setCurrentData(res.data);
@@ -161,8 +168,35 @@ export default function useJofynEngine() {
     }
   };
 
-  const handleOpenExcel = () => alert("Membuka aplikasi Excel...\nMenjalankan: `start excel /path/to/MasterData.xlsx`");
-  const handleOpenFolder = () => alert("Membuka Folder Explorer...\nMenjalankan: `explorer .\\data\\`");
+  const handleOpenExcel = async () => {
+    try {
+      const res = await axios.post('http://localhost:5000/api/open-excel');
+      if (res.data.error) {
+        alert(res.data.error);
+      }
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.error) {
+        alert(err.response.data.error);
+      } else {
+        alert("Excel file not found. Please run the scraper first.");
+      }
+    }
+  };
+
+  const handleOpenFolder = async () => {
+    try {
+      const res = await axios.post('http://localhost:5000/api/open-folder');
+      if (res.data.error) {
+        alert(res.data.error);
+      }
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.error) {
+        alert(err.response.data.error);
+      } else {
+        alert("Data folder not found. Please run the scraper first.");
+      }
+    }
+  };
 
   const handleStatusChange = (e, jobId, newStatus) => {
     e.stopPropagation();

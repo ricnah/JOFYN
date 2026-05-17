@@ -45,5 +45,10 @@
 ::-webkit-scrollbar-thumb:hover { background: rgba(192, 132, 252, 0.8); }
 
 body {
+  font-family: 'Inter', sans-serif;
   @apply text-violet-950 bg-[#EBD6FB] overflow-hidden;
+}
+
+input, button, select, textarea {
+  font-family: 'Inter', sans-serif;
 }

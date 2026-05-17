@@ -26,7 +26,7 @@ export default function TaskForm({
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-full flex items-center justify-center p-4 md:p-8 animate-fadeIn">
+    <div className="h-full w-full overflow-y-auto flex items-start md:items-center justify-center p-4 md:p-8 animate-fadeIn">
       <div className="w-full max-w-4xl glass-panel p-6 md:p-8 rounded-3xl shadow-[0_8px_32px_0_rgba(192,132,252,0.15)] border-white/60">
         <h2 className="text-3xl font-extrabold text-violet-950 mb-2 tracking-tight">{t('config_title')}</h2>
         <p className="text-violet-600 font-medium mb-8">{t('config_desc')}</p>
@@ -40,7 +40,7 @@ export default function TaskForm({
               <div className="space-y-1 text-center w-full">
                 <IconDoc />
                 <div className="flex text-sm justify-center font-bold text-violet-700">
-                  <span className="relative rounded-md text-fuchsia-600 hover:text-fuchsia-800 underline decoration-fuchsia-300 decoration-2 underline-offset-2">
+                  <span className="relative rounded-md text-violet-700 hover:text-violet-900 underline decoration-violet-300 decoration-2 underline-offset-2">
                     <span>{file ? file.name : t('upload_file')}</span>
                     <input type="file" className="sr-only" accept=".doc,.docx" onChange={(e) => setFile(e.target.files[0])} />
                   </span>
@@ -85,9 +85,9 @@ export default function TaskForm({
               <div className="flex flex-wrap items-center bg-white/50 border border-white/60 rounded-xl p-2 focus-within:bg-white/70 transition-all min-h-[46px] shadow-sm">
                 <IconLocation />
                 {locations.map(loc => (
-                  <span key={loc} className="flex items-center text-[11px] font-extrabold bg-fuchsia-100/80 text-fuchsia-800 border border-fuchsia-200/60 rounded-lg px-2 py-1 m-0.5 shadow-sm">
+                  <span key={loc} className="flex items-center text-[11px] font-extrabold bg-violet-100/80 text-violet-800 border border-violet-200/60 rounded-lg px-2 py-1 m-0.5 shadow-sm">
                     {loc}
-                    <button type="button" onClick={() => removeLocation(loc)} className="ml-1.5 text-fuchsia-500 hover:text-fuchsia-700 focus:outline-none">&times;</button>
+                    <button type="button" onClick={() => removeLocation(loc)} className="ml-1.5 text-violet-500 hover:text-violet-700 focus:outline-none">&times;</button>
                   </span>
                 ))}
                 {locations.length < 5 && (

@@ -12,7 +12,4 @@ export const CITY_DATABASE = [
   'Remote', 'Work From Anywhere (WFA)'
 ];
 
-export const mockHistoryList = [
-  { id: 'json_20260429', date: '29 April 2026', total: 112 },
-  { id: 'json_20260420', date: '20 April 2026', total: 85 },
-];
+export const mockHistoryList = [];

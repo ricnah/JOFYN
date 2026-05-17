@@ -45,16 +45,16 @@ export default function Sidebar({
 
         <h2 className="text-[10px] font-extrabold text-violet-500 uppercase tracking-widest mb-3 px-1">{t('local_database')}</h2>
         <ul className="space-y-1.5">
-          {history.map(item => (
+          {(history.length > 0 ? history : [{ id: 'dummy_empty', date: 'DD MM YYYY', total: '. . .' }]).map(item => (
             <li key={item.id}>
               <button 
                 onClick={() => { loadHistory(item.id, item.date); setIsSidebarOpen(false); setSelectedHistoryId(item.id); }} 
-                className={`w-full text-left px-3 py-2 rounded-xl flex justify-between items-center group transition-all border ${selectedHistoryId === item.id ? 'bg-white/80 border-white shadow-sm' : 'border-transparent hover:bg-white/50 hover:border-white/60'}`}
+                className={`w-full text-left px-3 py-2 rounded-xl flex justify-between items-center group transition-all border ${selectedHistoryId === item.id ? 'bg-violet-500/80 text-white border-violet-400 backdrop-blur-md shadow-violet-500/30' : 'bg-white/40 border-white/50 hover:bg-white/70'}`}
               >
-                <span className={`flex items-center text-sm font-bold truncate transition-colors ${selectedHistoryId === item.id ? 'text-violet-950' : 'text-violet-700 group-hover:text-violet-900'}`}>
+                <span className={`flex items-center text-sm font-bold truncate transition-colors ${selectedHistoryId === item.id ? 'text-white' : 'text-violet-700 group-hover:text-violet-900'}`}>
                   <IconHistory /> <span className="truncate w-28">{item.date}</span>
                 </span>
-                <span className={`text-xs px-2 py-0.5 rounded-md font-extrabold shrink-0 shadow-sm transition-colors ${selectedHistoryId === item.id ? 'bg-violet-100/80 text-violet-800 border border-violet-200' : 'bg-white/60 border border-white/40 text-violet-600'}`}>{item.total}</span>
+                <span className={`text-xs px-2 py-0.5 rounded-md font-extrabold shrink-0 shadow-sm transition-colors ${selectedHistoryId === item.id ? 'bg-white/30 border border-white/30 text-white' : 'bg-white/60 border border-white/40 text-violet-600'}`}>{item.total}</span>
               </button>
             </li>
           ))}
@@ -64,7 +64,7 @@ export default function Sidebar({
       <div className="p-4 border-t border-white/30 bg-white/20">
         <div className="mb-3">
           <p className="text-[10px] font-extrabold text-violet-500 uppercase tracking-widest mb-1.5 px-1">{t('local_storage')}</p>
-          <button onClick={handleOpenFolder} className="flex items-center text-xs font-bold text-fuchsia-600 hover:text-fuchsia-700 hover:bg-white/60 bg-white/40 px-2.5 py-2 rounded-xl border border-white/50 w-full truncate transition-all text-left shadow-sm">
+          <button onClick={handleOpenFolder} className="flex items-center text-xs font-bold text-violet-700 hover:text-violet-900 hover:bg-white/60 bg-white/40 px-2.5 py-2 rounded-xl border border-white/50 w-full truncate transition-all text-left shadow-sm">
              <IconFolder /> ./data/ ({t('open_folder')})
           </button>
         </div>
