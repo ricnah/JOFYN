@@ -1,6 +1,7 @@
 import time
 import json
 import os
+import urllib.parse
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -142,6 +143,83 @@ class JofynScraper:
                 
         return results
 
+    def scrape_kitalulus(self, keywords, locations):
+        results = []
+        base_url = "https://www.kitalulus.com/lowongan"
+        
+        for keyword in keywords:
+            # If locations list is empty, default to at least one empty string iteration
+            loc_list = locations if locations else [""]
+            for location in loc_list:
+                try:
+                    params = ["sortBy=isHighlighted"]
+                    if keyword:
+                        safe_keyword = urllib.parse.quote_plus(keyword)
+                        params.append(f"keyword={safe_keyword}")
+                    if location:
+                        safe_location = urllib.parse.quote_plus(location)
+                        params.append(f"location={safe_location}")
+                        
+                    search_url = f"{base_url}?{'&'.join(params)}"
+                    print(f"Navigating to KitaLulus: {search_url}")
+                    self.driver.get(search_url)
+                    time.sleep(4) # Wait for page load
+                    
+                    # Scroll to load more if needed
+                    self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight/2);")
+                    time.sleep(2)
+                    
+                    # Attempt to find job cards
+                    cards = self.driver.find_elements(By.CSS_SELECTOR, 'a.hover\:no-underline[href*="/lowongan/detail/"]')
+                    if not cards:
+                        cards = self.driver.find_elements(By.CSS_SELECTOR, 'a[href*="/lowongan/detail/"]')
+                        
+                    print(f"Found {len(cards)} KitaLulus cards.")
+                    for card in cards[:10]: # Limit to top 10 per keyword/location
+                        try:
+                            role = card.find_element(By.CSS_SELECTOR, 'h3').text.strip()
+                            company = card.find_element(By.CSS_SELECTOR, 'h3 + p').text.strip()
+                            link = card.get_attribute('href')
+                            
+                            # Parse details with default fallbacks
+                            loc = location if location else "Unknown"
+                            salary = "Rahasia"
+                            job_type = "Penuh Waktu"
+                            
+                            # Retrieve elements with details icons
+                            info_divs = card.find_elements(By.CSS_SELECTOR, 'div.flex.gap-2.items-center')
+                            for div in info_divs:
+                                try:
+                                    svg = div.find_element(By.CSS_SELECTOR, 'svg')
+                                    p_text = div.find_element(By.CSS_SELECTOR, 'p').text.strip()
+                                    viewbox = svg.get_attribute('viewBox')
+                                    if viewbox == "0 0 20 20":
+                                        loc = p_text
+                                    elif viewbox == "0 0 12 18":
+                                        if "Rp" in p_text or "Dapat Dinegosiasikan" in p_text:
+                                            salary = p_text
+                                        else:
+                                            job_type = p_text
+                                except:
+                                    pass
+                                    
+                            results.append({
+                                "company": company,
+                                "role": role,
+                                "salary": salary,
+                                "location": loc,
+                                "type": job_type,
+                                "platform": "KitaLulus",
+                                "date": time.strftime("%d-%m-%Y"),
+                                "status": "Belum Lamar"
+                            })
+                        except Exception as parse_err:
+                            print(f"Error parsing KitaLulus card: {parse_err}")
+                except Exception as nav_err:
+                    print(f"Error navigating/scraping KitaLulus: {nav_err}")
+                    
+        return results
+
     def run(self, keywords, locations, targets):
         results = []
         self.start_driver()
@@ -150,6 +228,8 @@ class JofynScraper:
                 results.extend(self.scrape_jobstreet(keywords, locations))
             if 'Glints' in targets:
                 results.extend(self.scrape_glints(keywords, locations))
+            if 'KitaLulus' in targets or 'KITALULUS' in targets:
+                results.extend(self.scrape_kitalulus(keywords, locations))
             # Add other targets...
         finally:
             self.stop_driver()

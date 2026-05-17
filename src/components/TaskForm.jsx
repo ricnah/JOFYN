@@ -57,18 +57,18 @@ export default function TaskForm({
             <div className="relative" ref={dateRef}>
               <label className="block text-sm font-extrabold text-violet-900 mb-2">{t('filter_date')}</label>
               <button type="button" onClick={() => setShowDateDropdown(!showDateDropdown)} className="w-full flex items-center justify-between px-4 py-3 bg-white/50 border border-white/60 rounded-xl text-sm font-bold text-violet-800 hover:bg-white/70 focus:outline-none transition-all shadow-sm">
-                <span className="flex items-center"><IconCalendar /> {t(dateOption.toLowerCase().replace(/ /g, '_')) || dateOption}</span>
+                <span className="flex items-center"><IconCalendar /> {t(dateOption)}</span>
                 <IconChevronDown />
               </button>
               
               {showDateDropdown && (
-                <div className="absolute z-30 mt-2 w-full glass-panel border border-white/60 rounded-2xl shadow-xl p-2 animate-fadeIn">
-                  {['Semua Waktu', '24 Jam Terakhir', '1 Minggu Terakhir', '1 Bulan Terakhir', 'Kustom Rentang...'].map(opt => (
-                    <button key={opt} type="button" onClick={() => { setDateOption(opt); if(opt !== 'Kustom Rentang...') setShowDateDropdown(false); }} className={`w-full text-left px-3 py-2 text-sm font-bold rounded-xl mb-1 transition-all ${dateOption === opt ? 'bg-violet-200/60 text-violet-900' : 'text-violet-700 hover:bg-white/50'}`}>
-                      {t(opt.toLowerCase().replace(/ /g, '_')) || opt}
+                <div className="absolute z-[40] mt-2 w-full bg-white/95 backdrop-blur-md border border-violet-100 rounded-2xl shadow-xl p-2 animate-fadeIn">
+                  {['all_time', 'last_24h', 'last_week', 'last_month', 'custom_range'].map(opt => (
+                    <button key={opt} type="button" onClick={() => { setDateOption(opt); if(opt !== 'custom_range') setShowDateDropdown(false); }} className={`w-full text-left px-3 py-2 text-sm font-bold rounded-xl mb-1 transition-all ${dateOption === opt ? 'bg-violet-200/60 text-violet-900' : 'text-violet-700 hover:bg-white/50'}`}>
+                      {t(opt)}
                     </button>
                   ))}
-                  {dateOption === 'Kustom Rentang...' && (
+                  {dateOption === 'custom_range' && (
                     <div className="mt-2 p-2.5 bg-white/40 rounded-xl border border-white/50 flex space-x-2 items-center">
                       <input type="text" placeholder={t('start_date')} className="w-1/2 bg-white/70 text-xs font-bold text-violet-900 border border-white/60 rounded-lg px-2.5 py-2 outline-none focus:border-violet-400 focus:bg-white shadow-sm" value={customDate.start} onChange={e=>setCustomDate({...customDate, start: e.target.value})} />
                       <span className="text-violet-500 font-bold">-</span>
